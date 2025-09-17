@@ -1,0 +1,20 @@
+# a. All log files
+*.log
+
+# b. Entire user manual folder
+/user_manual/
+
+# c. All txt files that include a "-"
+*-*.txt
+
+# d. The styles.css file
+/styles.css
+
+# e. All SRS files besides the final version
+SRS*draft*
+
+# f. All SDD files besides the final version
+SDD*draft*
+
+# g. Any README files not in the root directory
+**/*/README*
