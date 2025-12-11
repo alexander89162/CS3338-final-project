@@ -1,0 +1,114 @@
+\documentclass[12pt,titlepage]{article} 
+
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+\geometry{a4paper, margin=1in}
+\captionsetup{labelformat=empty}
+
+\begin{document}
+
+\title{UnBox3D: \\ Software Design Document}
+\author{Version \\ 1.0.0}
+\date{Group 1: Alexander Ramirez, Vivian Cases, Jacky Lim, \\ Nicholas Sisneros, Vince Wang}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\fancyhf{}
+\fancyhead[C]{Software Design Document}
+\fancyfoot[C]{\thepage}
+
+\begin{table}[h!]
+\centering
+\caption{\textbf{Revision History}}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Name} & \textbf{Date} & \textbf{Reasons for Changes} & \textbf{Version} \\
+\hline
+Alexander Ramirez & 2025-06-01 & First Draft & 1.0.0 \\
+\hline
+
+\hline
+
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+
+\section{Introduction}
+\subsection{Purpose}
+This document shows the general structure and specific implementation details to provide clarity on the project's direction and targeted features. It will ensure developers and stakeholders alike agree upon the direction of the program's development.
+\subsection{Intended Audience}
+Our intended audience includes: 
+\begin{itemize}
+	\item Software Developers
+    \item All stakeholders
+	\item Project Managers
+	\item Quality Assurance Teams/Testers
+\end{itemize}
+ 
+\subsection{System Overview}
+The program allows importing a model into a scene where it is displayed and reflects changes when simplified. When the user is satisfied with their changes, they can export the model to automatically mark cuts and folds in a scalable vector graphics file (.svg).
+
+\section{System Architecture}
+This section provides a high-level overview of UnBox3D's architectural design.
+\\
+\subsection{System Purpose and Goals}
+
+The program seeks to:
+\begin{itemize}
+	\item Allow simplifying models
+    \item Automate the unfolding process
+    \item Provide visual feedback during simplification
+\end{itemize}
+
+\subsection{General Workflow:}
+\begin{enumerate}
+	\item \textbf{Import Model:} Users can import a model into the scene that is in .obj format.
+    \item \textbf{Model Rendering:} The model is rendered in the viewport for the user to begin the simplification process.
+    \item \textbf{Simplification:} The user has the option to simplify the model by removing objects that are smaller than a certain threshold, or by Blender's decimation modifier where a given object has its geometry simplified while keeping the topology similar to before based on faces' angle constraints.
+    \item \textbf{Export:} The model is passed to Blender where it is unfolded using a Blender extension that automatically unfolds geometry islands and marks the cuts and folds for reassembly.
+\end{enumerate}
+
+\subsection{Data Flow:}
+\begin{enumerate}
+    \item When the user imports a model, an Assimp mesh is created
+    \item The Assimp mesh passes its data to a g3 mesh (DMesh3) so we can modify the data during simplification
+    \item Every frame, the data is passed from the g3 mesh to an AppMesh (a custom data container created by us)
+    \item The AppMesh data is passed into buffers for the GPU to access, with the help of OpenTK
+\end{enumerate}
+\section{User Interface}
+This sections describes the UI and how it is implemented.
+\subsection{Overview}
+There are 2 main screens in this program: the splash screen and the viewport.
+\begin{itemize}
+    \item \textbf{Splash Screen:} The logo is shown as the program loads
+    \item \textbf{Viewport:} The viewport features an Import button, a region where the scene is rendered, and an Export button for unfolding.
+\end{itemize}
+
+\subsection{Viewport Refreshing}
+The program is able to refresh the viewport effectively thanks to OpenTK, a wrapper for OpenGL. It takes the data from AppMesh instances and constantly updates the buffers for the GPU to render objects accurately at every frame.
+
+\section{Glossary}
+\begin{itemize}
+	\item UI - User Interface
+\end{itemize}
+
+\section{References}
+\begin{itemize}
+	\item Software Design Document (SRS): link will be added when available
+	\item Original GitHub: \href{https://github.com/lemuz37/ARL-Senior-Project}{Link}
+\end{itemize}
+
+\end{document}
