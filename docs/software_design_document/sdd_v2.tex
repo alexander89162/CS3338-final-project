@@ -75,7 +75,8 @@ The program seeks to:
 
 \subsection{General Workflow:}
 \begin{enumerate}
-	\item \textbf{Import Model:} Users can import a model into the scene that is in .obj format.
+	\item \textbf{Import Model:} Users can now import a model into the scene that is in '.obj' format.
+	\item \textbf{Model Parsing:} Assimp is used to parse the imported model's data and create a mesh representation that can be manipulated within the application.
     \item \textbf{Model Rendering:} The model is rendered in the viewport for the user to begin the simplification process.
     \item \textbf{Simplification:} The user has the option to simplify the model by removing objects that are smaller than a certain threshold, or by Blender's decimation modifier where a given object has its geometry simplified while keeping the topology similar to before based on faces' angle constraints.
     \item \textbf{Export:} The model is passed to Blender where it is unfolded using a Blender extension that automatically unfolds geometry islands and marks the cuts and folds for reassembly.
