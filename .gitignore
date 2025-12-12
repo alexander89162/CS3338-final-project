@@ -6,6 +6,7 @@
 
 # c. All txt files that include a "-"
 *-*.txt
+!final-project.txt
 
 # d. The styles.css file
 /styles.css
