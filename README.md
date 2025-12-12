@@ -63,3 +63,20 @@ Installation Steps
     ```bash
     git clone https://github.com/lemuz37/ARL-Senior-Project
     cd UnBox3D
+    ```
+2. Restore project dependencies  
+    ```bash
+    dotnet restore
+    ```
+
+3. Build the project  
+    ```bash
+    dotnet build --configuration Release
+    ```
+
+4. Run UnBox3D  
+    ```bash
+    dotnet run
+    ```
+**NOTE:**
+You may also open the solution in Visual Studio, which allows building and running the project with a single click.
