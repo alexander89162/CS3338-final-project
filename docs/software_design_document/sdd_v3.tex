@@ -1,0 +1,129 @@
+\documentclass[12pt,titlepage]{article} 
+
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+\geometry{a4paper, margin=1in}
+\captionsetup{labelformat=empty}
+
+\begin{document}
+
+\title{UnBox3D: \\ Software Design Document}
+\author{Version \\ 3.0.0}
+\date{Group 1: Alexander Ramirez, Vivian Cases, Jacky Lim, \\ Nicholas Sisneros, Vince Wang}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\fancyhf{}
+\fancyhead[C]{Software Design Document}
+\fancyfoot[C]{\thepage}
+
+\begin{table}[h!]
+\centering
+\caption{\textbf{Revision History}}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Name} & \textbf{Date} & \textbf{Reasons for Changes} & \textbf{Version} \\
+\hline
+Alexander Ramirez & 2025-06-01 & First Draft & 1.0.0 \\
+\hline
+Vivian Casas & \today & Update for snapshot 2 & 2.0.0 \\
+\hline
+Vivian Casas & \today & Update for snapshot 3 & 3.0.0 \\
+\hline
+
+\hline
+\end{tabular}
+\end{table}
+
+\section{Introduction}
+\subsection{Purpose}
+This document shows the general structure and specific implementation details to provide clarity on the project's direction and targeted features. Version 3  reflects the third checkpoint, where model simplification are added. These include bounding-box filtering to remove small objects and Blender's decimation modifier for per-object geometry reduction. This document will ensure developers and stakeholders alike agree upon the direction of the program's development.
+\subsection{Intended Audience}
+Our intended audience includes: 
+\begin{itemize}
+	\item Software Developers
+    \item All stakeholders
+	\item Project Managers
+	\item Quality Assurance Teams/Testers
+\end{itemize}
+ 
+\subsection{System Overview}
+The program now supports model simplification. Users can remove small objects based on bounding-box dimensions or apply Blender's decimation modifier to reduce geometry complexity while preserving overall shape. These features enhance the usability of UnBox3D by allowing users to optimize models for unfolding and fabrication.Import and rendering functionalities from Version 2 remain intact, providing a seamless experience from model loading to simplification and export.
+\section{System Architecture}
+This section provides a high-level overview of UnBox3D's architectural design.
+\\
+\subsection{System Purpose and Goals}
+
+The program seeks to:
+\begin{itemize}
+	\item Allow simplifying models
+    \item Automate the unfolding process
+    \item Provide visual feedback during simplification
+\end{itemize}
+
+\subsection{General Workflow:}
+\begin{enumerate}
+	\item \textbf{Import Model:} Users can now import a model into the scene that is in '.obj' format.
+	\item \textbf{Model Parsing:} Assimp is used to parse the imported model's data and create a mesh representation that can be manipulated within the application.
+    \item \textbf{Model Rendering:} The model is rendered in the viewport for the user to begin the simplification process.
+    \item \textbf{Simplification:} The user now has the option to simplify the model by removing objects that are smaller than a certain threshold, or by Blender's decimation modifier where a given object has its geometry simplified while keeping the topology similar to before based on faces' angle constraints.
+    \item \textbf{Export:} The model is passed to Blender where it is unfolded using a Blender extension that automatically unfolds geometry islands and marks the cuts and folds for reassembly.
+\end{enumerate}
+
+\subsection{Data Flow:}
+\begin{enumerate}
+    \item When the user imports a model, an Assimp mesh is created
+    \item The Assimp mesh passes its data to a g3 mesh (DMesh3) so we can modify the data during simplification
+    \item If simplification is requested, the g3 mesh is altered accordingly:
+    \begin{itemize}
+        \item For bounding-box filtering, objects with dimensions below the user-defined threshold are removed from the g3 mesh.
+        \item For Blender decimation, the relevant data is sent to Blender via its Python API to apply the decimation modifier, and the simplified mesh is retrieved back into the g3 mesh.
+    \end{itemize}
+    \item Every frame, the data is passed from the g3 mesh to an AppMesh (a custom data container created by us)
+    \item The AppMesh data is passed into buffers for the GPU to access, with the help of OpenTK
+\end{enumerate}
+\section{User Interface}
+This sections describes the UI and how it is implemented.
+\subsection{Overview}
+There are 2 main screens in this program: the splash screen and the viewport.
+\begin{itemize}
+    \item \textbf{Splash Screen:} The logo is shown as the program loads
+    \item \textbf{Viewport:} The viewport features an Import button, a region where the scene is rendered, and an Export button for unfolding.
+\end{itemize}
+
+\subsection{Viewport Refreshing}
+The program is able to refresh the viewport effectively thanks to OpenTK, a wrapper for OpenGL. It takes the data from AppMesh instances and constantly updates the buffers for the GPU to render objects accurately at every frame. After simplification, the viewport reflects the updated model in real-time.
+
+\section{Glossary}
+\begin{itemize}
+	\item UI - User Interface
+	\item Assimp - Open Asset Import Library
+	\item OpenTK - Open Toolkit Library (a C\# wrapper for OpenGL)
+	\item Bounding-Box Filtering - A simplification technique that removes objects based on their bounding-box dimensions.
+	\item Blender Decimation Modifier - A tool within Blender that reduces the number of polygons in a mesh while attempting to preserve its overall shape.
+	\item g3 mesh (DMesh3) - A data structure from the g3Sharp library used for 3D mesh representation and manipulation.
+	\item AppMesh - A custom data container created to hold mesh data for rendering.
+	\item GPU - Graphics Processing Unit
+	\item SVG - Scalable Vector Graphics
+	\item Blender Python API - An interface that allows for scripting and automation within Blender using Python.
+	\item OpenGL - Open Graphics Library, a cross-language, cross-platform API for rendering 2D and 3D vector graphics.
+\end{itemize}
+
+\section{References}
+\begin{itemize}
+	\item Software Requirements Specification (SRS): link will be added when available
+	\item Original GitHub: \href{https://github.com/lemuz37/ARL-Senior-Project}{Link}
+\end{itemize}
+
+\end{document}
