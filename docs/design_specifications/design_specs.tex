@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{hyperref}
+
+\geometry{a4paper, margin=1in}
+
+\title{Design Specifications}
+\author{Group 1: Alexander Ramirez, Vivian Casas, Jacky Lim \\ Nicholas Sisneros, Vince Wang}
+\date{\today}
+
+\setlength{\droptitle}{6cm}
+
+\pagestyle{fancy}
+\fancyhead[L]{Design Specifications}
+\fancyhead[R]{Page \thepage}
+\fancyfoot[C]{}
+
+\begin{document}
+
+\begin{titlepage}
+    \maketitle
+    \thispagestyle{empty}
+\end{titlepage}
+
+\section*{Packages}
+\begin{itemize}
+    \item \textbf{Assimp:} Parses imported .obj files into mesh data.
+    \item \textbf{OpenTK:} C\# wrapper for OpenGL, used for rendering graphics and viewport updates.
+    \item \textbf{Blender (Python API):} Used for mesh simplification and unfolding/export to .svg.
+    \item \textbf{Docker:} Containerization of frontend, backend, database, and NGINX server for deployment.
+\end{itemize}
+
+\section*{Dependencies}
+\begin{itemize}
+    \item \textbf{Front-End (React.js):}
+    \begin{itemize}
+        \item Node.js
+        \item npm
+        \item React.js, react-dom
+        \item Bootstrap
+    \end{itemize}
+
+    \item \textbf{Back-End (Node.js + Express):}
+    \begin{itemize}
+        \item Node.js (v18-alpine)
+        \item Express
+        \item body-parser, cors, dotenv
+        \item pg (PostgreSQL client)
+        \item nodemon (development auto-restart)
+        \item Python 3.x runtime for Blender scripting
+    \end{itemize}
+
+    \item \textbf{Database Management:}
+    \begin{itemize}
+        \item PostgreSQL (v15-alpine)
+        \item Docker Volume (dbdata) for data persistence
+    \end{itemize}
+
+    \item \textbf{Reverse Proxy:}
+    \begin{itemize}
+        \item NGINX (v1.25-alpine)
+        \item Custom config routes /api requests to backend
+    \end{itemize}
+\end{itemize}
+
+\section*{Libraries}
+\begin{itemize}
+    \item Assimp (Open Asset Import Library)
+    \item OpenTK (Open Toolkit Library for OpenGL rendering)
+    \item React.js (JavaScript library for building user interfaces)
+    \item Express (Node.js web application framework)
+    \item pg (PostgreSQL client for Node.js)
+    \item Bootstrap (CSS framework for responsive design)
+    \item Blender Decimation Modifier
+    \item Blender Paper Model Exporter
+\end{itemize}
+
+\section*{Pages and Screens}
+\begin{itemize}
+    \item \textbf{Splash Screen:} Displays the application logo and loading status during startup.
+    \item \textbf{Viewport:}
+    \begin{itemize}
+        \item Import button for uploading 3D models in .obj format.
+        \item Render region powered by OpenTK for displaying 3D models.
+        \item Simplify button with bounding-box and decimation options.
+        \item Export button:
+        \begin{itemize}
+            \item Passes simplified model to Blender for unfolding.
+            \item Produces .svg file with cuts and folds marked.
+            \item Downloads .svg file to user.
+            \item Displays unfolded model preview in a new window.
+            \item Option to print directly from the preview window.
+            \item Option to save .svg file for later use.
+        \end{itemize}
+        \item UI polish: error handling, loading indicators, responsive design, and edge case support.
+    \end{itemize}
+\end{itemize}
+
+\section*{Workflow Summary}
+\begin{enumerate}
+    \item Application Startup $\rightarrow$ Splash Screen $\rightarrow$ Viewport
+    \item User imports .obj file $\rightarrow$ File parsed by Assimp $\rightarrow$ Rendered in OpenTK viewport
+    \item User simplifies model $\rightarrow$ Simplification options applied $\rightarrow$ Model updated in viewport
+    \item User exports model $\rightarrow$ Model sent to Blender via Python script $\rightarrow$ Model unfolded and exported as .svg
+    \item .svg file downloaded to user $\rightarrow$ Unfolded model preview displayed $\rightarrow$ User can print or save .svg file 
+\end{enumerate}
+
+\section*{Docker Compose Services}
+\begin{itemize}
+    \item \textbf{frontend:} React application served via Node.js and NGINX.
+    \item \textbf{backend:} Express API for modeling logic, database interactions, and Blender Python scripting.
+    \item \textbf{database:} PostgreSQL container with persistent volume.
+    \item \textbf{nginx:} Reverse proxy and static file server for frontend and backend services.
+\end{itemize}
+
+\section*{Repository}
+\begin{itemize}
+    \item GitHub: \href{https://github.com/alexander89162/CS3338-final-project}{UnBox3D}
+\end{itemize}
+
+\end{document}
