@@ -6,7 +6,7 @@
 
 ## Jira Project Link
 
-UnBox3D Jira Board: ______________________
+UnBox3D Jira Board: https://unbox3d.atlassian.net/jira/software/projects/UN/boards/2
 
 ---
 
