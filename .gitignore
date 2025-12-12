@@ -12,27 +12,9 @@
 
 # e. All SRS files besides the version 1-4 final versions
 SRS*draft*
-srs_*
-!srs_v1.tex
-!srs_v1.pdf
-!srs_v2.tex
-!srs_v2.pdf
-!srs_v3.tex
-!srs_v3.pdf
-!srs_v4.tex
-!srs_v4.pdf
 
 # f. All SDD files besides the version 1-4 final versions
 SDD*draft*
-sdd_*
-!sdd_v1.tex
-!sdd_v1.pdf
-!sdd_v2.tex
-!sdd_v2.pdf
-!sdd_v3.tex
-!sdd_v3.pdf
-!sdd_v4.tex
-!sdd_v4.pdf
 
 # g. All LaTeX build artifacts
 *.aux
