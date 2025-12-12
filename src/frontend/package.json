@@ -1,0 +1,9 @@
+{
+    "name": "unbox3d-frontend",
+    "version": "1.0.0",
+    "scripts":{
+        "dev": "echo 'Mock frontend dev server'",
+        "build": "echo 'Mock frontend build",
+        "serve": "echo 'Mock frontend serve"
+    }
+}
