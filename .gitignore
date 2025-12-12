@@ -10,11 +10,21 @@
 # d. The styles.css file
 /styles.css
 
-# e. All SRS files besides the final version
+# e. All SRS files besides version 1-4 final versions
 SRS*draft*
 
-# f. All SDD files besides the final version
+# f. All SDD files besides version 1-4 final versions
 SDD*draft*
 
-# g. Any README files not in the root directory
+# g. All LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.bbl
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# h. Any README files not in the root directory
 **/*/README*

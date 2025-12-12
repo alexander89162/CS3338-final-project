@@ -1,0 +1,92 @@
+#generate docker-compose.yml outline
+version: '3.9'
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    container_name: unbox3d-frontend
+    working_dir: /app
+    volumes:
+      - ./src/frontend:/app
+      - /app/node_modules
+    command: >
+      sh -c "
+        npm install &&
+        npm run build &&
+        npx serve -s build -l 5173
+      "
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    networks:
+      - unbox3d-network
+    
+  # Backend
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: unbox3d-backend
+    working_dir: /app
+    volumes:
+      - ./src/backend:/app
+      - /app/node_modules
+    command: >
+      sh -c "
+        npm install &&
+        npm start
+      "
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=postrges
+      - DB_Password=postgres
+      - DB_NAME=unbox3d
+    depends_on:
+      - db
+    networks:
+      - unbox3d-network
+
+  # Database service
+  db:
+    image: postgres:15-alpine
+    container_name: unbox3d-db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=unbox3d
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - unbox3d-network
+
+    # NGINX reverse proxy
+  nginx:
+    image: nginx:latest
+    container_name: unbox3d-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/nginx/conf.d:/etc/nginx/conf.d
+      - ./src/frontend/build:/usr/share/nginx/html
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - unbox3d-network
+
+  networks:
+    unbox3d-network:
+
+  volumes:
+    dbdata:
