@@ -1,0 +1,126 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{hyperref}
+
+\title{UnBox3D TestRail Report -- Snapshot 2}
+\author{Alexander Ramirez \\ Vivian Casas \\ Jacky Lim \\ Nicholas Sisneros \\ Vince Wang}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+This Snapshot 2 TestRail report documents the early testing of UnBox3D.  
+At this stage, implemented features include:
+
+\begin{itemize}
+  \item Splash screen and placeholder UI with an Import button and viewport.
+  \item Basic model import using Assimp for .obj files.
+  \item Initial OpenGL rendering using OpenTK.
+\end{itemize}
+
+The objective of this testing cycle was to verify that the application launches successfully, imports simple .obj files, and renders them without crashing.
+
+\section{Test Environment}
+
+\begin{itemize}
+  \item OS: Windows 10 / 11 (64-bit)
+  \item Framework: .NET
+  \item Graphics: OpenGL via OpenTK
+  \item Build: Snapshot 2 tagged build
+  \item Test Models: cube.obj, low-poly.obj, invalid.txt
+\end{itemize}
+
+\section{Test Cases}
+
+\setlength{\extrarowheight}{2pt}
+
+\begin{longtable}{p{1.7cm} p{3.0cm} p{3.0cm} p{6.0cm} p{3.0cm} p{0.9cm}}
+\toprule
+\textbf{ID} & \textbf{Title} & \textbf{Preconditions} & \textbf{Steps} & \textbf{Expected Result} & \textbf{Pr.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Title} & \textbf{Preconditions} & \textbf{Steps} & \textbf{Expected Result} & \textbf{Pr.} \\
+\midrule
+\endhead
+
+TC-2-01 & Application Launch & Build installed & 
+1. Open executable. &
+Application launches to splash screen then main UI. & H \\ 
+\midrule
+
+TC-2-02 & UI Layout Loads & App launched & 
+Observe main window. &
+UI displays Import button + viewport. & H \\ 
+\midrule
+
+TC-2-03 & Import Button Enabled & App launched & 
+Check Import button state. &
+Button is active and clickable. & H \\ 
+\midrule
+
+TC-2-04 & Valid .obj Import & Valid .obj available & 
+1. Click Import  
+2. Select .obj file &
+Model loads without error. & H \\
+\midrule
+
+TC-2-05 & Model Visible in Viewport & Model imported & 
+Observe viewport. &
+Model renders centered and visible. & H \\
+\midrule
+
+TC-2-06 & Invalid File Handling & Invalid file available & 
+1. Import invalid file &
+App shows clear error; no crash. & M \\
+\midrule
+
+TC-2-07 & Large Model Stability & Large .obj available &
+1. Import large model &
+App remains responsive and does not crash. & M \\
+\midrule
+
+TC-2-08 & Basic Camera Interaction & Model loaded &
+Attempt rotate/zoom (if implemented). &
+If implemented: interacts smoothly.  
+If not: app safely ignores. & L \\
+\bottomrule
+\end{longtable}
+
+\section{Test Run Results}
+
+\begin{tabularx}{\textwidth}{p{1.7cm} p{2.5cm} p{3cm} X}
+\toprule
+\textbf{ID} & \textbf{Result} & \textbf{Tester} & \textbf{Notes} \\
+\midrule
+TC-2-01 & Passed & Alexander Ramirez & Launches in ~2 seconds. \\
+TC-2-02 & Passed & Vivian Casas & UI elements load correctly. \\
+TC-2-03 & Passed & Jacky Lim & Import button active by default. \\
+TC-2-04 & Passed & Nicholas Sisneros & cube.obj imports successfully. \\
+TC-2-05 & Passed & Nicholas Sisneros & Viewport displays model correctly. \\
+TC-2-06 & Failed & Alexander Ramirez & Error message unclear; behavior correct. \\
+TC-2-07 & Passed & Vivian Casas & Large model import slow but stable. \\
+TC-2-08 & Blocked & Jacky Lim & Camera not yet implemented. \\
+\bottomrule
+\end{tabularx}
+
+\section{Metrics}
+
+\begin{itemize}
+    \item Total Tests: 8
+    \item Passed: 6
+    \item Failed: 1
+    \item Blocked: 1
+    \item Pass Rate: 75\%
+\end{itemize}
+
+\section{Conclusion}
+
+Snapshot 2 confirms that import + rendering works correctly and the base UI behaves as expected. Camera features will be added next snapshot.
+
+\end{document}

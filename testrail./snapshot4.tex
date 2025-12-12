@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+\title{UnBox3D TestRail Report -- Snapshot 4 (Final)}
+\author{Alexander Ramirez \\ Vivian Casas \\ Jacky Lim \\ Nicholas Sisneros \\ Vince Wang}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+Snapshot 4 adds:
+
+\begin{itemize}
+  \item 2D layout export via Blender paper model exporter (.svg)
+  \item Final UI polish
+  \item Full end-to-end workflow testing
+\end{itemize}
+
+This snapshot validates final deliverable readiness.
+
+\section{Test Environment}
+\begin{itemize}
+  \item Windows 10/11
+  \item Blender with paper model exporter add-on
+  \item OpenTK/OpenGL rendering
+  \item Snapshot 4 final build
+\end{itemize}
+
+\section{Test Cases}
+
+\begin{longtable}{p{1.8cm} p{3.2cm} p{3.0cm} p{6.0cm} p{3cm} p{0.9cm}}
+\toprule
+ID & Title & Preconditions & Steps & Expected Result & Pr. \\
+\midrule
+\endfirsthead
+\toprule
+ID & Title & Preconditions & Steps & Expected Result & Pr. \\
+\midrule
+\endhead
+
+TC-4-01 & Regression: Import & Final build installed &
+Import cube.obj &
+Model loads + renders. & H \\
+\midrule
+
+TC-4-02 & Pipeline Regression & Scene exists &
+Filter → Decimate &
+Pipeline produces stable output. & H \\
+\midrule
+
+TC-4-03 & SVG Export (Simple) & Blender configured &
+1. Import cube  
+2. Export 2D layout &
+.svg generated without error. & H \\
+\midrule
+
+TC-4-04 & SVG Opens Correctly & .svg exists &
+Open in browser &
+Renders flattened layout properly. & H \\
+\midrule
+
+TC-4-05 & Export Medium Model & Medium model exists &
+Import → Filter → Decimate → Export &
+.svg generated; completes reasonably fast. & H \\
+\midrule
+
+TC-4-06 & Invalid Export Path & User selects invalid directory &
+Trigger export &
+Clear error, no crash. & M \\
+\midrule
+
+TC-4-07 & UI Polish & Final UI loaded &
+Inspect UI &
+No placeholder text, consistent layout. & M \\
+\midrule
+
+TC-4-08 & Many Small Parts & Complex scene &
+Import → Filter → Export &
+Stable behavior; output created. & M \\
+\midrule
+
+TC-4-09 & Full E2E Workflow & Final build &
+Import → Filter → Decimate → Export → View &
+Successful full pipeline. & H \\
+\midrule
+
+TC-4-10 & Exporter Failure Handling & Break exporter intentionally &
+Attempt export &
+Graceful error message. & M \\
+\bottomrule
+\end{longtable}
+
+\section{Test Run Results}
+
+\begin{tabularx}{\textwidth}{p{1.8cm} p{2.5cm} p{3cm} X}
+\toprule
+ID & Result & Tester & Notes \\
+\midrule
+TC-4-01 & Passed & Alexander Ramirez & No regressions. \\
+TC-4-02 & Passed & Vivian Casas & Output stable. \\
+TC-4-03 & Passed & Jacky Lim & SVG looks clean. \\
+TC-4-04 & Passed & Nicholas Sisneros & Opens in Chrome + Inkscape. \\
+TC-4-05 & Passed & Vince Wang & Export ~12 seconds. \\
+TC-4-06 & Passed & Vivian Casas & Error dialog correct. \\
+TC-4-07 & Passed & Nicholas Sisneros & UI polished and consistent. \\
+TC-4-08 & Passed & Alexander Ramirez & Heavy model handled. \\
+TC-4-09 & Passed & Jacky Lim & Pipeline complete. \\
+TC-4-10 & Passed & Vince Wang & Error handled safely. \\
+\bottomrule
+\end{tabularx}
+
+\section{Metrics}
+\begin{itemize}
+    \item Total Tests: 10
+    \item Passed: 10
+    \item Failed: 0
+    \item Pass Rate: 100\%
+\end{itemize}
+
+\section{Conclusion}
+
+All final pipeline features function correctly, including 2D export. UnBox3D meets the expected deliverables for the CS3338 final project.
+
+\end{document}
