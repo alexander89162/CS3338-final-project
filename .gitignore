@@ -10,10 +10,10 @@
 # d. The styles.css file
 /styles.css
 
-# e. All SRS files besides the version 1-4 final versions
+# e. All SRS files besides version 1-4 final versions
 SRS*draft*
 
-# f. All SDD files besides the version 1-4 final versions
+# f. All SDD files besides version 1-4 final versions
 SDD*draft*
 
 # g. All LaTeX build artifacts
